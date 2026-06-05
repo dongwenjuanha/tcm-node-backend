@@ -1,11 +1,14 @@
 // server/app.js
+require('dotenv').config(); // 【新增】加载环境变量
+
 const express = require('express');
 const cors = require('cors');
 const KnowledgeModel = require('./db'); // 引入数据模型
 
 
 const app = express();
-const PORT = 3000;
+// 【修改】优先使用环境变量中的端口，本地开发时回退到 3000
+const PORT = process.env.PORT || 3000; 
 
 // 允许跨域请求
 app.use(cors());
@@ -55,6 +58,9 @@ app.get('/api/knowledge/list', async (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`🚀 Node.js 后端已启动，监听端口: http://localhost:${PORT}`);
-});
+// app.listen(PORT, () => {
+//     console.log(`🚀 Node.js 后端已启动，监听端口: http://localhost:${PORT}`);
+// });
+
+// 【修改】优先使用环境变量中的端口，本地开发时回退到 3000
+const PORT = process.env.PORT || 3000; 

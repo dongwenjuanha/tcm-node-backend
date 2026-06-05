@@ -2,11 +2,14 @@
 const mongoose = require('mongoose');
 
 // 连接到本地 MongoDB（默认端口 27017），数据库名为 tcm_db
-const dbUrl = 'mongodb://localhost:27017/tcm_db'; 
+const dbUrl = process.env.MONGO_URI || 'mongodb://localhost:27017/tcm_db'; 
 
 mongoose.connect(dbUrl)
   .then(() => console.log('✅ MongoDB 数据库连接成功'))
-  .catch(err => console.error('❌ 数据库连接失败:', err));
+  .catch(err => {
+    console.error('❌ 数据库连接失败:', err)
+    process.exit(1); // 如果连不上数据库，直接终止程序，避免空跑
+  });
 
 // 定义中医知识的 Schema（数据结构骨架）
 const knowledgeSchema = new mongoose.Schema({
